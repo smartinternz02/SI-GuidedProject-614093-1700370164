@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Summarization</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+    <header>
+        <div class="header-content">
+            <h1>AI Insights- Unveiling Intelligent Data</h1>
+            <p>Summarize your long and time-consuming texts.</p>
+        </div>
+    </header>
+
+    <div class="container-wrapper">
+        <div class="info-container">
+            <div class="info-section">
+                <p>Transform complex ideas into clear, concise writing with the summarizing tool. Easily get condensed versions of project plans, articles, and more that are simple to understand and share.</p>
+            </div>
+            <div class="image-section">
+                <p>Here we go</p>
+                <!-- Replace the image URL with your desired image -->
+                <img src="https://schoolhabits.com/wp-content/uploads/2022/01/How-to-write-a-summary-text-blog-1-768x432.jpg">
+            </div>
+        </div>
+
+        <div class="predict-container">
+            <h3>Write your text here</h3>
+            <!-- Replace the file input with a text input -->
+            <textarea id="text-input" rows="4" cols="50"></textarea>
+
+            <!-- Predict Button -->
+            <button type="button" id="predict-button">Predict</button>
+
+            <div id="result"></div>
+        </div>
+    </div>
+
+    <script>
+        // Function to handle text summarization
+        function predictText() {
+            const text = document.getElementById('text-input').value;
+
+            fetch('/summarize', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ text: text }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Update HTML with the summarized text
+                document.getElementById('result').innerHTML = `<h3>Summarized Text:</h3><p>${data.summary}</p>`;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        // Attach click event to Predict button
+        document.getElementById('predict-button').addEventListener('click', predictText);
+    </script>
+
+    <script src="{{url_for('static',filename='script.js')}}"></script>
+</body>
+
+</html>

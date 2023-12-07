@@ -1,0 +1,27 @@
+<html>
+<head>
+    <title>Text Summarizer</title>
+</head>
+<body>
+    <h1>Text Summarizer</h1>
+    <form action="/summarize" method="post">
+        <textarea name="text" rows="10" cols="50" placeholder="Enter your text here"></textarea>
+        <br>
+        <input type="submit" value="Summarize">
+    </form>
+    <div id="summary"></div>
+
+    <script>
+        document.querySelector('form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            const response = await fetch('/summarize', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.json();
+            document.getElementById('summary').innerText = data.summary;
+        });
+    </script>
+</body>
+</html>
